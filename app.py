@@ -10,13 +10,16 @@ app = Flask(__name__)
 @app.before_request
 def before_request():
     # Set up a Kafka producer
-    TOPIC_NAME = 'items'
-    KAFKA_SERVER = 'localhost:9092'
-    producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
+    kafkaServer = 'localhost:9092'
+    topicName = 'computer_item'
+    producer = KafkaProducer(bootstrap_servers=kafkaServer)
+    # producer = KafkaProducer(
+    #     bootstrap_servers=kafkaServer, 
+    #     value_serializer=lambda v: json.dumps(v).encode('utf-8'))
     # Setting Kafka to g enables us to use this
     # in other parts of our application
     g.kafka_producer = producer
-
+    
 
 @app.route('/health')
 def health():
